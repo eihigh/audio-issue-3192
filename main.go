@@ -74,6 +74,26 @@ func run() error {
 
 	ctx := audio.NewContext(*context)
 
+	f := func(r io.ReadSeeker) (*audio.Player, error) {
+		p, err := ctx.NewPlayer(r)
+		if err != nil {
+			return nil, err
+		}
+		b, err := io.ReadAll(r)
+		if err != nil {
+			return nil, err
+		}
+		// if err := os.WriteFile("out.pcm", b, 0644); err != nil {
+		// 	return nil, err
+		// }
+		l := 20
+		if len(b) < l {
+			l = len(b)
+		}
+		fmt.Println(b[:l])
+		return p, nil
+	}
+
 	var p *audio.Player
 	switch {
 	case strings.HasSuffix(*file, ".ogg"):
@@ -82,7 +102,7 @@ func run() error {
 			return err
 		}
 		fmt.Println(stream.Length())
-		p, err = ctx.NewPlayer(stream)
+		p, err = f(stream)
 		if err != nil {
 			return err
 		}
@@ -93,7 +113,7 @@ func run() error {
 			return err
 		}
 		fmt.Println(stream.Length())
-		p, err = ctx.NewPlayer(stream)
+		p, err = f(stream)
 		if err != nil {
 			return err
 		}
