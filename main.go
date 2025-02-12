@@ -79,18 +79,18 @@ func run() error {
 		if err != nil {
 			return nil, err
 		}
-		b, err := io.ReadAll(r)
-		if err != nil {
-			return nil, err
-		}
-		// if err := os.WriteFile("out.pcm", b, 0644); err != nil {
+		// b, err := io.ReadAll(r)
+		// if err != nil {
 		// 	return nil, err
 		// }
-		l := 20
-		if len(b) < l {
-			l = len(b)
-		}
-		fmt.Println(b[:l])
+		// // if err := os.WriteFile("out.pcm", b, 0644); err != nil {
+		// // 	return nil, err
+		// // }
+		// l := 20
+		// if len(b) < l {
+		// 	l = len(b)
+		// }
+		// fmt.Println(b[:l])
 		return p, nil
 	}
 
